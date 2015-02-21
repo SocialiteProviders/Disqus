@@ -40,7 +40,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'access_token' => $token,
                 'api_key'      => $this->clientId,
                 'api_secret'   => $this->clientSecret,
-            ]
+            ],
         ]);
 
         return json_decode($response->getBody(), true)['response'];

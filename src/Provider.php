@@ -17,7 +17,9 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://disqus.com/api/oauth/2.0/authorize', $state);
+        return $this->buildAuthUrlFromBase(
+            'https://disqus.com/api/oauth/2.0/authorize', $state
+        );
     }
 
     /**
@@ -33,11 +35,11 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://disqus.com/api/3.0/users/details.json', [
+        $response = $this->getHttpClient()->get(
+            'https://disqus.com/api/3.0/users/details.json', [
             'query' => [
-                'access_token' => $token,
-                'api_key'      => $this->clientId,
-                'api_secret'   => $this->clientSecret,
+                'access_token' => $token, 'api_key' => $this->clientId,
+                'api_secret' => $this->clientSecret,
             ],
         ]);
 
@@ -50,11 +52,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'nickname' => $user['username'],
-            'name'     => $user['name'],
-            'email'    => array_key_exists('email', $user) ? $user['email'] : null,
-            'avatar'   => $user['avatar']['permalink'],
+            'id' => $user['id'], 'nickname' => $user['username'],
+            'name' => $user['name'], 'email' => array_get($user, 'email'),
+            'avatar' => $user['avatar']['permalink'],
         ]);
     }
 
@@ -63,6 +63,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code)
     {
-        return array_merge(parent::getTokenFields($code), ['grant_type' => 'authorization_code']);
+        return array_merge(parent::getTokenFields($code), [
+            'grant_type' => 'authorization_code',
+        ]);
     }
 }

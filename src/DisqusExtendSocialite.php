@@ -1,4 +1,5 @@
 <?php
+
 namespace SocialiteProviders\Disqus;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;

@@ -1,4 +1,5 @@
 <?php
+
 namespace SocialiteProviders\Disqus;
 
 use Laravel\Socialite\Two\AbstractProvider;
@@ -43,7 +44,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
         ]);
 
-        return json_decode($response->getBody(), true)['response'];
+        return json_decode($response->getBody()->getContents(), true)['response'];
     }
 
     /**
